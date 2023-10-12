@@ -93,16 +93,25 @@ function continuousSum(num1) {
 
 
 Function.prototype.curry = function (numArgs) {
-    const numbers = [num1];
-    let count = 1;
+    const numbers = [];
+    let that = this;
+
 
     return function _curriedSum(num) {
         numbers.push(num);
-        count++;
 
-        console.log(numbers.reduce((acc, el) => acc + el));
-
-    return _curriedSum;
-    
+        if(numbers.length === numArgs){
+            return that.apply(null, numbers);
+        }else{
+            return _curriedSum
+        }
     }
 }
+
+function fourAdd(num1, num2, num3, num4){
+    return num1 + num2 + num3 + num4
+}
+
+const sums = fourAdd.curry(4);
+console.log(sums(5)(30)(20)(1));
+
