@@ -30,9 +30,11 @@ function sum(...numbers) {
 // Function.prototype.myBind = function (context) {
 //     const that = this;
 //     const args = Array.prototype.slice.call(arguments, 1);
+//         //let args = Array.from(arguments);
+//         // args = args.slice(1)
 
 //     return function(){ 
-//         const args2 = Array.prototype.slice.call(arguments);
+//         const args2 = Array.from(arguments);
 //         return that.apply(context, args.concat(args2));
 //     }
 // }
@@ -65,13 +67,42 @@ class Cat {
 const markov = new Cat("Markov");
 const pavlov = new Dog("Pavlov");
 
-markov.says("meow", "Ned");
-markov.says.myBind(pavlov, "meow", "Kush")();
-markov.says.myBind(pavlov)("meow", "a tree");
-markov.says.myBind(pavlov, "meow")("Markov");
+// markov.says("meow", "Ned");
+// markov.says.myBind(pavlov, "meow", "Kush")();
+// markov.says.myBind(pavlov)("meow", "a tree");
+// markov.says.myBind(pavlov, "meow")("Markov");
 
-const notMarkovSays = markov.says.myBind(pavlov);
-notMarkovSays("meow", "me");
+// const notMarkovSays = markov.says.myBind(pavlov);
+// notMarkovSays("meow", "me");
   
 
+function continuousSum(num1) {
+    const numbers = [num1];
 
+    return function _curriedSum(num) {
+        numbers.push(num);
+
+    
+    console.log(numbers.reduce((acc, el) => acc + el));
+
+    return _curriedSum;
+    }
+}
+
+// continuousSum(5)(30)(20)(1);
+
+
+Function.prototype.curry = function (numArgs) {
+    const numbers = [num1];
+    let count = 1;
+
+    return function _curriedSum(num) {
+        numbers.push(num);
+        count++;
+
+        console.log(numbers.reduce((acc, el) => acc + el));
+
+    return _curriedSum;
+    
+    }
+}
