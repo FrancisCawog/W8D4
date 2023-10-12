@@ -25,38 +25,27 @@ function sum(...numbers) {
 // console.log(sum(1, 2, 3, 4));
 
 
-
-
-
-
-
+// ES5 syntax
+// ============================================
 // Function.prototype.myBind = function (context) {
-//     var fn = this;
-//     var bindArgs = Array.prototype.slice.call(arguments, 1); // Get the arguments to bind
+//     const that = this;
+//     const args = Array.prototype.slice.call(arguments, 1);
 
-//     return function () {
-//         var callArgs = Array.prototype.slice.call(arguments); // Get the arguments when the bound function is called
-//         return fn.apply(context, bindArgs.concat(callArgs)); // Concatenate and call the original function with both sets of arguments
-//     };
-// };
+//     return function(){ 
+//         const args2 = Array.prototype.slice.call(arguments);
+//         return that.apply(context, args.concat(args2));
+//     }
+// }
 
-// Function.prototype.myBind = function (context, ...bindArgs) {
-//     var fn = this;
-
-//     return function (...callArgs) {
-//         return fn.apply(context, bindArgs.concat(callArgs)); // Concatenate and call the original function with both sets of arguments
-//     };
-// };
-
-
-
-Function.prototype.myBind = function (context) {
+// ES6 syntax 
+// =============================================
+Function.prototype.myBind = function(context, ...bindTimeArgs){
     let that = this;
-    that.apply(context, arguments);
+    return function(...callTimeArgs){
+        return that.apply(context, bindTimeArgs.concat(callTimeArgs) )
+    }
 }
-
-
-
+        
 class Cat {
     constructor(name) {
         this.name = name;
@@ -73,14 +62,16 @@ class Cat {
       }
     }
   
-    const markov = new Cat("Markov");
-    const pavlov = new Dog("Pavlov");
-    
-    markov.says("meow", "Ned");
-    markov.says.myBind(pavlov, "meow", "Kush")();
-    markov.says.myBind(pavlov)("meow", "a tree");
-    markov.says.myBind(pavlov, "meow")("Markov");
+const markov = new Cat("Markov");
+const pavlov = new Dog("Pavlov");
 
-    const notMarkovSays = markov.says.myBind(pavlov);
-    notMarkovSays("meow", "me");
+markov.says("meow", "Ned");
+markov.says.myBind(pavlov, "meow", "Kush")();
+markov.says.myBind(pavlov)("meow", "a tree");
+markov.says.myBind(pavlov, "meow")("Markov");
+
+const notMarkovSays = markov.says.myBind(pavlov);
+notMarkovSays("meow", "me");
   
+
+
